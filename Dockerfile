@@ -50,17 +50,16 @@ RUN cmake --build . --config Release -j$(nproc)
 RUN cmake --build . --target install
 
 # Install Valgrind
-ENV VALGRIND_VERSION=3.23
-ENV VALGRIND_BUILD=0
+FROM uncrustify-build AS valgrind-build
+ENV VALGRIND_VERSION=3.25
+ENV VALGRIND_BUILD=1
+RUN apt install perl
 WORKDIR /opt
 RUN mkdir valgrind
 RUN wget https://sourceware.org/pub/valgrind/valgrind-$VALGRIND_VERSION.$VALGRIND_BUILD.tar.bz2
-RUN bzip2 -d valgrind-$VALGRIND_VERSION.$VALGRIND_BUILD.tar.bz2
-RUN tar -xvf valgrind-$VALGRIND_VERSION.$VALGRIND_BUILD.tar
+RUN bzip2 -d valgrind-$VALGRIND_VERSION.$VALGRIND_BUILD.tar.bz2 && tar -xvf valgrind-$VALGRIND_VERSION.$VALGRIND_BUILD.tar
 WORKDIR /opt/valgrind-$VALGRIND_VERSION.$VALGRIND_BUILD
-RUN ./configure --prefix=/opt/valgrind
-RUN make -j$(nproc)
-RUN make install
+RUN ./configure --prefix=/opt/valgrind && make -j$(nproc) && make install
 WORKDIR /opt
 RUN rm -rf valgrind-$VALGRIND_VERSION.$VALGRIND_BUILD*
 ENV PATH="${PATH}:/opt/valgrind/bin"
