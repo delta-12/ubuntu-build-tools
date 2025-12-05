@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update image and install tools, dependencies
 RUN apt update && apt upgrade --no-install-recommends -y && apt autoremove -y
-RUN apt install --no-install-recommends -y python3 python3-pip pipx build-essential ninja-build gdb git wget libssl-dev protobuf-compiler
+RUN apt install --no-install-recommends -y python3 python3-pip pipx build-essential ninja-build gdb git wget libssl-dev protobuf-compiler curl unzip
 RUN pipx install gcovr
 
 # Install CMake
@@ -57,8 +57,8 @@ RUN uncrustify --version
 
 # Install Valgrind
 FROM uncrustify-build AS valgrind-build
-ENV VALGRIND_VERSION=3.25
-ENV VALGRIND_BUILD=1
+ENV VALGRIND_VERSION=3.26
+ENV VALGRIND_BUILD=0
 RUN apt install -y perl
 WORKDIR /opt
 RUN mkdir valgrind
