@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get upgrade --no-install-recommends -y  \
     && apt-get install --no-install-recommends -y \
     # General
-    git wget curl unzip gpg dirmngr \
+    git wget curl unzip gpg gpg-agent dirmngr \
     python3 python3-pip pipx \
     build-essential ninja-build gdb \
     libssl-dev protobuf-compiler \
